@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <vector>
+#include <list>
 #include <initializer_list>
 
 template<typename T>
@@ -44,11 +45,31 @@ public:
     int size() const override {return v.size();}
 };
 
+template<typename T>
+class List_container: public Container<T> {
+    std::list<T> v;
+public:
+    List_container() {}
+    List_container(std::initializer_list<T> il): v(il) {}
+    ~List_container() {}
+
+    double &operator[](int i) override {
+        for (auto& x: v) {
+            if (i==0) return x;
+            --i;
+        }
+        throw std::out_of_range("List container");
+    }
+    int size() const override {return v.size();}
+};
+
 int main()
 try
 {
     Vector_container<double> vc {10, 9, 8,7,6,5,4,3,2,1,0};
     use(vc);
+    List_container<double> lc {10, 9, 8,7,6,5,4,3,2,1,0};
+    use(lc);
     return 0;
 }
 catch (const std::exception &e)
