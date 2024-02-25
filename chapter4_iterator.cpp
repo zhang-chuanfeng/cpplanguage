@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -51,7 +52,23 @@ int test_stream_iterator() {
     return !is.eof() || !os;
 }
 
+int test_stream_iterator_simple() {
+    string from, to;
+    cin >> from >> to;
+
+    ifstream is {from};
+    ofstream os {to};
+
+    // 不保留重复值，并且进行排序
+    set<string> b {istream_iterator<string>{is}, istream_iterator<string>{}};
+
+    // 拷贝到cout
+    copy(b.begin(), b.end(), ostream_iterator<string>{os, "\n"});
+    return !is.eof() || !os;
+}
+
 int main() {
     test_ostream_iterator();
     test_stream_iterator();
+    test_stream_iterator_simple();
 }
