@@ -34,7 +34,7 @@ int main()
     cout << "starting func1() in background"
          << " and func2() in foreground:" << endl;
 
-    future<int> result1(async(launch::async,func1));
+    future<int> result1 {async(launch::async,func1)};
 
     int result2 = func2();
 
