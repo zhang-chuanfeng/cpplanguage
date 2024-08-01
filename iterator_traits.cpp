@@ -30,12 +30,15 @@ namespace Estd2 {
         sort(beg, end);
     }
 
+    template <typename Iter>
+        using Value_type = typename iterator_traits<Iter>::value_type;
+
     template<typename For>
     void sort_helper(For beg, For end, forward_iterator_tag) {
-        using T = typename remove_const<decltype(*beg)>::type;
+        using T = Value_type<For>;
         vector<T> v(beg, end);
-        // std::sort(v.begin(), v.end());
-        // copy(v.begin(), v.end(), beg);
+        sort(v.begin(), v.end());
+        copy(v.begin(), v.end(), beg);
     }
 
     template <typename C>
@@ -50,7 +53,7 @@ namespace Estd2 {
 }
 
 int main() {
-    std::list<int> list {12, 34,56,78};
+    std::list<int> list {12, 1, 5, 34,56,78};
     // list.begin()
     // std::vector<int> tmp {list.begin(), list.end()};
     // std::sort(tmp.begin(), tmp.end());
