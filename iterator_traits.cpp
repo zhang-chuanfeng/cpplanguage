@@ -30,12 +30,13 @@ namespace Estd2 {
         sort(beg, end);
     }
 
-    template <typename Iter>
-        using Value_type = typename iterator_traits<Iter>::value_type;
+    // template <typename Iter>
+    //     using Value_type = typename iterator_traits<Iter>::value_type;
 
     template<typename For>
     void sort_helper(For beg, For end, forward_iterator_tag) {
-        using T = Value_type<For>;
+        // using T = Value_type<For>;
+        using T = typename For::value_type;
         vector<T> v(beg, end);
         sort(v.begin(), v.end());
         copy(v.begin(), v.end(), beg);
