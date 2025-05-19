@@ -4,6 +4,7 @@
 #include <list>
 #include <type_traits>
 #include <iterator>
+#include <algorithm>  // 为 std::sort 添加头文件
 
 // 主模板 - 用于检测是否有 begin() 和 end() 方法
 template<typename T, typename = void>
@@ -50,6 +51,13 @@ constexpr bool Sortable() {
     }
 }
 
+// 容器版本的Sort函数模板
+template<typename Container>
+void Sort(Container& cont) {
+    static_assert(Sortable<Container>(), "Container must be sortable (have random access iterator)");
+    std::sort(cont.begin(), cont.end());
+}
+
 int main()
 {
     // 验证 Range 概念
@@ -80,10 +88,27 @@ int main()
               << "  is Range: " << Range<std::list<int>>() << '\n'
               << "  is Sortable: " << Sortable<std::list<int>>() << '\n';
     
-    NonRange nr;
+    // NonRange nr;
     std::cout << "\nNonRange:\n"
               << "  is Range: " << Range<NonRange>() << '\n'
               << "  is Sortable: " << Sortable<NonRange>() << '\n';
+
+    std::vector<int> vecToSort = {3, 1, 4, 1, 5, 9, 2, 6};
+    std::cout << "\nvector Before sort: ";
+    for (int i : vecToSort) std::cout << i << ' ';
+    std::cout << '\n';
+    
+    Sort(vecToSort);  // 可以排序，因为 vector 是 Sortable
+    
+    std::cout << "vector After sort: ";
+    for (int i : vecToSort) std::cout << i << ' ';
+    std::cout << '\n';
+    
+    // std::list<int> lstToSort = {3, 1, 4, 1, 5};
+    // Sort(lstToSort);  // 编译错误，因为 list 不是 Sortable
+    
+    // NonRange nr2;
+    // Sort(nr2);  // 编译错误，因为 NonRange 不是 Sortable
 
     return 0;
 }
