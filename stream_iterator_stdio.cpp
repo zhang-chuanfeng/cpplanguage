@@ -17,3 +17,17 @@ int main() {
     
     return 0;
 }
+
+
+// 数据转换与过滤
+// int main() {
+//     // 将输入的数字乘以2后输出
+//     transform(
+//         istream_iterator<int>(cin),
+//         istream_iterator<int>(),
+//         ostream_iterator<int>(cout, " "),
+//         [](int x) { return x * 2; }
+//     );
+    
+//     return 0;
+// }
