@@ -92,6 +92,58 @@ void test_regex_search3()
     }
 }
 
+// regex_token_iterator
+void test_regex_token_iterator()
+{
+    cout << "\n=== regex_token_iterator 测试 ===\n";
+    
+    // 示例1：提取特定捕获组
+    {
+        regex pattern(R"((\w+)@(\w+)\.(\w+))");
+        string text = "联系方式: user@example.com 或 admin@test.org";
+        
+        // 只获取用户名部分（第1个捕获组）
+        sregex_token_iterator it(text.begin(), text.end(), pattern, 1);
+        sregex_token_iterator end;
+        
+        cout << "所有用户名:\n";
+        while (it != end) {
+            cout << *it++ << '\n';  // 输出：user, admin
+        }
+    }
+    
+    // 示例2：字符串分割
+    {
+        regex pattern(R"([@\.])");  // 匹配@或.
+        string text = "user@example.com";
+        
+        // -1表示输出非匹配部分
+        sregex_token_iterator it(text.begin(), text.end(), pattern, -1);
+        sregex_token_iterator end;
+        
+        cout << "分割结果:\n";
+        while (it != end) {
+            cout << *it++ << '\n';  // 输出：user, example, com
+        }
+    }
+    
+    // 示例3：同时获取多个捕获组
+    {
+        regex pattern(R"((\w+)@(\w+)\.(\w+))");
+        string text = "user@example.com";
+        
+        // 获取第1和第3个捕获组
+        int submatches[] = {1, 3};
+        sregex_token_iterator it(text.begin(), text.end(), pattern, submatches);
+        sregex_token_iterator end;
+        
+        cout << "用户名和顶级域名:\n";
+        while (it != end) {
+            cout << *it++ << '\n';  // 输出：user, com
+        }
+    }
+}
+
 void test_regex_replace()
 {
     cout << "\n=== regex_replace 测试 ===\n";
@@ -126,5 +178,6 @@ int main()
     test_regex_replace();
     test_regex_search2();
     test_regex_search3();
+    test_regex_token_iterator();
     return 0;
 }
