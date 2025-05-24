@@ -50,6 +50,24 @@ void test_regex_search()
     }
 }
 
+void test_regex_search2()
+{
+    cout << "\n=== regex_search 测试 ===\n";
+    regex pattern(R"(\w+@\w+\.\w+)");
+    string text = "联系方式: user@example.com 或 admin@example.com";
+
+    // 使用 regex_iterator 来迭代所有匹配
+    sregex_iterator it(text.begin(), text.end(), pattern);
+    // regex_iterator<string::iterator>
+    // 构造时完成所有匹配的查找，后续只需要迭代获取结果即可
+    sregex_iterator end;
+
+    while (it != end) {
+        cout << "找到匹配: " << it->str() << '\n';
+        ++it;
+    }
+}
+
 void test_regex_replace()
 {
     cout << "\n=== regex_replace 测试 ===\n";
@@ -82,5 +100,6 @@ int main()
     test_regex_match();
     test_regex_search();
     test_regex_replace();
+    test_regex_search2();
     return 0;
 }
