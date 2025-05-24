@@ -68,6 +68,30 @@ void test_regex_search2()
     }
 }
 
+void test_regex_search3()
+{
+    cout << "\n=== regex_search 测试 ===\n";
+    regex pattern(R"((\w+)@(\w+)\.(\w+))");  // 添加捕获组
+    string text = "联系方式: user@example.com 或 admin@example.org";
+
+    sregex_iterator it(text.begin(), text.end(), pattern);
+    sregex_iterator end;
+
+    while (it != end) {
+        // it 指向的是 smatch 对象
+        const smatch& match = *it;  // 获取当前的 smatch
+        
+        cout << "完整匹配: " << match[0] << '\n';  // 完整匹配
+        cout << "用户名: " << match[1] << '\n';    // 第一个捕获组
+        cout << "域名: " << match[2] << '\n';      // 第二个捕获组
+        cout << "顶级域名: " << match[3] << '\n';  // 第三个捕获组
+        cout << "位置: " << match.position() << '\n';  // 匹配的位置
+        cout << "-------------------\n";
+        
+        ++it;
+    }
+}
+
 void test_regex_replace()
 {
     cout << "\n=== regex_replace 测试 ===\n";
@@ -101,5 +125,6 @@ int main()
     test_regex_search();
     test_regex_replace();
     test_regex_search2();
+    test_regex_search3();
     return 0;
 }
